@@ -1,0 +1,12 @@
+{
+    "name": "fence",
+  , "version": "0.0.1",
+  , "description": "A small library to create JSON backed domain models with chainable methods.",
+  , "keywords": ["models", "json"],
+  , "author": "Dave Woodward <dave@futuremint.com>",
+  , "dependencies": {
+      "underscore": "1.1.4"
+    }
+  , "main": "index"
+  , "engines": { "node": "0.4.x" }
+}
