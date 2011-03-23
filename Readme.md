@@ -1,7 +1,7 @@
 
 # fence
 
-  A small library to create JSON backed domain models with chainable methods.  Written in Coffeescript, but .js files are included, so no knowledge of Coffeescript is necessary.  Please refer to fence.test.coffee until I write more documentation.
+  A small library to create JSON backed domain models with chainable methods.  Written in Coffeescript, but .js files are included, so no knowledge of Coffeescript is necessary.  cd to 'examples' and run 'node user-usage.js' to execute the example of how to use a model, see examples/user.coffee or user.js for example on how to write a model using this library.
 
 ## License 
 
