@@ -56,16 +56,7 @@ model.fn = model.prototype =
     if extension?
       _.extend @, model.fn[extension] if model.fn[extension]?
 
-    # Memoizes call to keys array
-    docKeys = ->
-      if (doc?) && (keys.length is 0)
-        keys = _.keys doc
-      keys
-
-    # Basic set of "privileged" functions.  @update is here because it requires model.fn.async's existence
-
-    # Calls the callback with the keys of the document
-    @keys = model.fn.sync (cb) -> cb.call @, docKeys()
+    # Basic set of "privileged" functions.
 
     # The collection
     @all = model.fn.sync (cb) -> cb.call @, collection
@@ -73,9 +64,9 @@ model.fn = model.prototype =
 
     # The document
     @val = model.fn.sync (cb) -> cb.call @, doc
-    @_doc = () -> doc
+    @_doc = () -> doc  # A hack around Javascript's object model
 
-    # General setter for model meta-properties (only db for now)
+    # General setter for model meta-properties (only db for now) (also, this is kind of silly)
     @set = (setting, val) ->
       switch setting
         when 'db' then db = val
@@ -95,21 +86,7 @@ model.fn = model.prototype =
       console.log("object stripped of foreign keys #{obj}") if @debugging
       _.extend doc, obj
       done()
-
-    # Calls callback with an object that is a reference to this document
-    @reference = model.fn.sync (cb) ->
-      cb {sq_class: doc['sq_class'], id: doc['_id']}
-
-    # Retrieves a new uuid from couch and sets the _id attribute of the document to the id
-    @setId = model.fn.async (done) ->
-      model.fn.connection.uuids (err, id) =>
-        @val (doc) ->
-          doc._id = id[0]
-          done()
-
     @
-
-  # TODO: It would be nice to be able to make functions to be a 'maybe monad', where further calls after them don't do anything
 
   # Makes functions that save themselves for deferred execution. The lambda should take the doc and a callback as its
   #  last 2 arguments so it can signal its completion.
